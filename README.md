@@ -1,2 +1,2 @@
 # note-manager
-note manager with meteor js
+This is a note manager using meteor js and mongodb.
