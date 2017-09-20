@@ -1,0 +1,59 @@
+<head>
+  <title>Note Manager</title>
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+  <nav class="blue">
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo">Logo</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <a class="waves-effect waves-light btn modal-trigger" href="#add-modal">Create new note</a>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li><a class="modal-trigger" href="#add-modal">Create new note</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="container">
+    <h1>Latest notes</h1>
+    <ul class="collection">
+      {{#each notes}}
+        {{> note}}
+      {{/each}}
+    </ul>
+  </div>
+
+
+  {{> addModal}}
+
+
+  <script>
+    $(document).ready(function(){
+      $('.modal').modal();
+      $(".button-collapse").sideNav();
+    });
+  </script>
+</body>
+
+<template name="note">
+  <li class="collection-item">
+    {{text}}
+    <a href="#" class="delete-note secondary-content"><i class="material-icons">close</i></a>
+  </li>
+</template>
+
+<template name="addModal">
+  <!-- Modal Structure -->
+  <div id="add-modal" class="modal">
+    <div class="modal-content">
+      <h3>Add note</h3>
+      <form class="add-form">
+        <input type="text" id="text" name="text" placeholder="Add note">
+      </form>
+    </div>
+  </div>
+</template>
+
+
