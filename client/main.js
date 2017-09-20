@@ -1,5 +1,12 @@
 import { Template } from 'meteor/templating';
 import { Notes } from '../lib/collections.js';
+import { Accounts } from 'meteor/accounts-base';
+
+//accounts config
+Accounts.ui.config({
+	passwordSignupFields: 'USERNAME_ONLY'
+});
+
 import './main.html';
 
 Template.body.helpers({
@@ -12,13 +19,12 @@ Template.body.helpers({
 
 Template.note.events({
 	'click .delete-note': function(){
-		Notes.remove(this._id);
-		Materialize.toast(this.text + ' was deleted', 4000);
+		Meteor.call('notes.remove', this);
 	}
 });
 
 Template.addModal.events({
-	'submit .add-form': function(event,template){
+	'submit .add-form': function(event, template){
 		event.preventDefault();
 		//getting input value by id
 		const textById = template.find('#text').value
@@ -29,21 +35,16 @@ Template.addModal.events({
 		    { text: textByName}
 		);
 
-
 		if(equalText === undefined){
 			if (textByName !== "" ) {
 				//creating note
-				Notes.insert({
-					text: textByName,
-					createAt: new Date()
-				});
-				Materialize.toast(this.text + ' was created', 4000);
+				Meteor.call('notes.insert', textByName);
+				Materialize.toast(textByName + ' was created', 4000);
 			}
-			
 		}else{
 			Materialize.toast("Cannot insert the record because it exist");
 		}
-		
+
 		//clear the input
 		event.target.text.value = "";
 		return false;

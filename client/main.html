@@ -5,24 +5,42 @@
 
 <body>
   <nav class="blue">
-    <div class="nav-wrapper">
-      <a href="#!" class="brand-logo">Logo</a>
-      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-      <ul class="right hide-on-med-and-down">
-        <a class="waves-effect waves-light btn modal-trigger" href="#add-modal">Create new note</a>
-      </ul>
-      <ul class="side-nav" id="mobile-demo">
-        <li><a class="modal-trigger" href="#add-modal">Create new note</a></li>
-      </ul>
+    <div class="container">
+      <div class="nav-wrapper">
+        <a href="#!" class="brand-logo">Note Manager</a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+          {{#if currentUser}}
+            <li><a class="waves-effect waves-light btn modal-trigger" href="#add-modal">Create new note</a></li>
+          {{/if}}
+          <li>
+            {{> loginButtons}}
+          </li>
+        </ul>
+        <ul class="side-nav" id="mobile-demo">
+          {{#if currentUser}}
+            <li><a class="modal-trigger" href="#add-modal">Create new note</a></li>
+          {{/if}}
+          <li style="color:black;">
+            {{> loginButtons}}
+          </li>
+        </ul>
+      </div>
     </div>
+    
   </nav>
   <div class="container">
-    <h1>Latest notes</h1>
-    <ul class="collection">
-      {{#each notes}}
-        {{> note}}
-      {{/each}}
-    </ul>
+    {{#if currentUser}}
+      <h1>Latest notes</h1>
+      <ul class="collection">
+        {{#each notes}}
+          {{> note}}
+        {{/each}}
+      </ul>
+    {{else}}
+      <h3><a href="{{> atForm}}">Sign up</a> or <a href="{{pathFor 'signin'}}">Sign in</a></h3>
+    {{/if}}
+    
   </div>
 
 
@@ -39,7 +57,7 @@
 
 <template name="note">
   <li class="collection-item">
-    {{text}}
+    {{text}}: <strong>Added by {{username}}</strong>
     <a href="#" class="delete-note secondary-content"><i class="material-icons">close</i></a>
   </li>
 </template>
